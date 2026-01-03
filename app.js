@@ -1,73 +1,107 @@
+/////// app.js
+
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+const path = require('node:path');
+const { Pool } = require('pg');
 const express = require('express');
 const session = require('express-session');
-var passport = require('passport');
-var crypto = require('crypto');
-var routes = require('./routes');
-const { pool } = require('./config/database');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
-// Package documentation - https://www.npmjs.com/package/connect-pg-simple
-const pgSession = require('connect-pg-simple')(session);
-
-/**
- * -------------- GENERAL SETUP ----------------
- */
-
-// Gives us access to variables set in the .env file via `process.env.VARIABLE_NAME` syntax
-require('dotenv').config();
-
-// Create the Express application
-var app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
-
-/**
- * -------------- SESSION SETUP ----------------
- */
-
-const sessionStore = new pgSession({
-    pool: pool,
-    tableName: 'session'
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
 });
 
-app.use(session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: sessionStore,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)
-    }
-}));
+const app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-/**
- * -------------- PASSPORT AUTHENTICATION ----------------
- */
-
-// Need to require the entire Passport config module so app.js knows about it
-require('./config/passport');
-
-app.use(passport.initialize());
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: false }));
 app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
 
+// If you insert this code somewhere between where you instantiate the passport middleware and before you render your views, you will have access to the currentUser variable in all of your views, and you won’t have to manually pass it into all of the controllers in which you need it.
 app.use((req, res, next) => {
-    console.log(req.session);
-    console.log(req.user);
-    next();
+	res.locals.currentUser = req.user;
+	next();
 });
 
-/**
- * -------------- ROUTES ----------------
- */
+app.get('/', (req, res) => {
+	res.render('index', { user: req.user });
+});
 
-// Imports all of the routes from ./routes/index.js
-app.use(routes);
+app.get('/sign-up', (_req, res) => res.render('sign-up-form'));
 
+app.post('/sign-up', async (req, res, next) => {
+	try {
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [req.body.username, hashedPassword]);
+		res.redirect('/');
+	} catch (error) {
+		console.error(error);
+		next(error);
+	}
+});
 
-/**
- * -------------- SERVER ----------------
- */
+app.post(
+	'/log-in',
+	passport.authenticate('local', {
+		successRedirect: '/',
+		failureRedirect: '/',
+	})
+);
 
-// Server listens on http://localhost:3000
-app.listen(3000);
+app.get('/log-out', (req, res, next) => {
+	req.logout((err) => {
+		if (err) {
+			return next(err);
+		}
+		res.redirect('/');
+	});
+});
+
+passport.use(
+	new LocalStrategy(async (username, password, done) => {
+		try {
+			const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+			const user = rows[0];
+
+			if (!user) {
+				return done(null, false, { message: 'Incorrect username' });
+			}
+
+			const match = await bcrypt.compare(password, user.password);
+			if (!match) {
+				// passwords do not match!
+				return done(null, false, { message: 'Incorrect password' });
+			}
+
+			return done(null, user);
+		} catch (err) {
+			return done(err);
+		}
+	})
+);
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+	try {
+		const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+		const user = rows[0];
+
+		done(null, user);
+	} catch (err) {
+		done(err);
+	}
+});
+
+app.listen(3000, (error) => {
+	if (error) {
+		throw error;
+	}
+	console.log('app listening on port 3000!');
+});

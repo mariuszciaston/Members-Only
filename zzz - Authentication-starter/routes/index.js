@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const passport = require('passport');
-const genPassword = require('../lib/passwordUtils').genPassword;
+const {genPassword} = require('../lib/passwordUtils');
 const { User } = require('../config/database');
-const isAuth = require('./authMiddleware').isAuth;
-const isAdmin = require('./authMiddleware').isAdmin;
+const {isAuth} = require('./authMiddleware');
+const {isAdmin} = require('./authMiddleware');
 
 /**
  * -------------- POST ROUTES ----------------
@@ -15,13 +15,13 @@ const isAdmin = require('./authMiddleware').isAdmin;
     try {
         const saltHash = genPassword(req.body.pw);
         
-        const salt = saltHash.salt;
-        const hash = saltHash.hash;
+        const {salt} = saltHash;
+        const {hash} = saltHash;
 
         const newUser = await User.create({
             username: req.body.uname,
-            hash: hash,
-            salt: salt,
+            hash,
+            salt,
             admin: true
         });
 
