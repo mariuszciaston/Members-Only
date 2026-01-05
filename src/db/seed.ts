@@ -5,18 +5,11 @@ import { Client } from "pg";
 
 dotenv.config();
 
-const SQL = `
-CREATE TABLE IF NOT EXISTS usernames (
+const SQL = `CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  username VARCHAR(255)
-);
-
-INSERT INTO usernames (username) 
-VALUES
-  ('Bryan'),
-  ('Odin'),
-  ('Damon')
-ON CONFLICT DO NOTHING;
+  username VARCHAR(255),
+  password VARCHAR(255)
+  );
 `;
 
 await (async () => {
@@ -25,8 +18,8 @@ await (async () => {
     connectionString: process.env.DATABASE_URL,
   });
   await client.connect();
-  console.log("Inserting data...");
+  console.log("Creating table...");
   await client.query(SQL);
   await client.end();
-  console.log("Seeding done!");
+  console.log("Done!");
 })();

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head', { title: 'Login | Members Only' }) %>
+  <body>
+    <%- include('partials/nav') %>
+    <main>
+      <h2>Login</h2>
+      <form action="/login" method="POST">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          placeholder="username"
+          type="text"
+        />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p>No account yet? <a href="/register">Register now</a>.</p>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
