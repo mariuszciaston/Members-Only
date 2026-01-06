@@ -3,9 +3,9 @@ import { Router } from "express";
 import {
   login,
   logout,
+  register,
   renderLogin,
   renderRegister,
-  register,
 } from "../controllers/authController.js";
 
 const authRouter = Router();

@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 
-import { insertUser } from "../db/queries.js";
+import { createUser } from "../db/queries.js";
 import { RegisterRequestBody } from "../types/types.js";
 
 const renderRegister = (_req: Request, res: Response) => {
@@ -15,9 +15,9 @@ const renderLogin = (_req: Request, res: Response) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { password, username } = req.body as RegisterRequestBody;
+    const { fullname, password, username } = req.body as RegisterRequestBody;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await insertUser(username, hashedPassword);
+    await createUser(username, hashedPassword, fullname);
     res.redirect("/");
   } catch (error) {
     console.error(error);

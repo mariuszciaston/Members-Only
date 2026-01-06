@@ -1,9 +1,13 @@
 import * as db from "./pool.js";
 
-const insertUser = async (username: string, hashedPassword: string) => {
+const createUser = async (
+  username: string,
+  hashedPassword: string,
+  fullname: string,
+) => {
   const result = await db.query(
-    "INSERT INTO users (username, password) VALUES ($1, $2)",
-    [username, hashedPassword],
+    "INSERT INTO users (fullname, username, password) VALUES ($1, $2, $3)",
+    [fullname, username, hashedPassword],
   );
 
   return result.rows[0];
@@ -23,4 +27,4 @@ const getUserById = async (id: string) => {
   return result.rows[0];
 };
 
-export { getUserById, getUserByUsername, insertUser };
+export { createUser, getUserById, getUserByUsername };

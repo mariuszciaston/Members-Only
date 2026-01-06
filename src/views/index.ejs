@@ -7,18 +7,14 @@
       <% if (locals.currentUser) { %>
       <h2>Welcome back <%= locals.currentUser.username %>!</h2>
 
-      <p>
-        This is the members only content. Only logged in users can see this.
-      </p>
-
-      <div>[][][][][][][][][][][][]</div>
+      <p>-full content here-</p>
 
       <% } else { %>
 
       <h2>Welcome to Members Only!</h2>
       <p>To create a post, you need to <a href="/login">login</a> first.</p>
 
-      <div>[][][][][][][][][][][][]</div>
+      <div>-content here-</div>
 
       <% } %>
     </main>

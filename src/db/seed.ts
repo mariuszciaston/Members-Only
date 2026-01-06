@@ -1,25 +1,33 @@
 #!/usr/bin/env node
 
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import { Client } from "pg";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const SQL = `CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  username VARCHAR(255),
-  password VARCHAR(255)
-  );
-`;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-await (async () => {
-  console.log("Connecting...");
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
-  await client.connect();
-  console.log("Creating table...");
-  await client.query(SQL);
-  await client.end();
-  console.log("Done!");
-})();
+const sessionSQL = fs.readFileSync(
+  path.join(__dirname, "session.sql"),
+  "utf-8",
+);
+const usersSQL = fs.readFileSync(path.join(__dirname, "users.sql"), "utf-8");
+
+console.log("Connecting...");
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+});
+
+await client.connect();
+console.log("Creating tables...");
+
+await client.query(usersSQL);
+await client.query(sessionSQL);
+
+await client.end();
+console.log("Done!");

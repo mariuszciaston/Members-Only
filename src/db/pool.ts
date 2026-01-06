@@ -13,4 +13,4 @@ const query = async <T extends QueryResultRow>(
   return pool.query<T>(text, params);
 };
 
-export { query };
+export { pool, query };
