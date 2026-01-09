@@ -29,7 +29,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     const { fullname, password, username } = req.body as RegisterBody;
     const hashedPassword = await bcrypt.hash(password, 10);
     await createUser(username, hashedPassword, fullname);
-    res.redirect("/");
+    res.redirect("/login");
   } catch (error) {
     console.error(error);
     next(error);
