@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 
 import { createUser } from "../db/queries.js";
-import { RegisterRequestBody } from "../types/types.js";
+import { RegisterBody } from "../types/types.js";
 
 const renderRegister = (_req: Request, res: Response) => {
   res.render("register-form");
@@ -15,7 +15,7 @@ const renderLogin = (_req: Request, res: Response) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { fullname, password, username } = req.body as RegisterRequestBody;
+    const { fullname, password, username } = req.body as RegisterBody;
     const hashedPassword = await bcrypt.hash(password, 10);
     await createUser(username, hashedPassword, fullname);
     res.redirect("/");

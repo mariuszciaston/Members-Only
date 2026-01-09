@@ -1,7 +1,8 @@
-interface RegisterRequestBody {
+interface RegisterBody {
+  confirmPassword: string;
   fullname: string;
   password: string;
   username: string;
 }
 
-export { RegisterRequestBody };
+export { RegisterBody };
