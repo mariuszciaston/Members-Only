@@ -7,11 +7,12 @@ import {
   renderLogin,
   renderRegister,
 } from "../controllers/authController.js";
+import { validateUser } from "../middlewares/validator.js";
 
 const authRouter = Router();
 
 authRouter.get("/register", renderRegister);
-authRouter.post("/register", register);
+authRouter.post("/register", validateUser, register);
 
 authRouter.get("/login", renderLogin);
 authRouter.post("/login", login);

@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import passport from "passport";
 
 import { createUser } from "../db/queries.js";
@@ -14,6 +15,16 @@ const renderLogin = (_req: Request, res: Response) => {
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.render("register-form", {
+      body: req.body as RegisterBody,
+      errors: errors.array(),
+    });
+    return;
+  }
+
   try {
     const { fullname, password, username } = req.body as RegisterBody;
     const hashedPassword = await bcrypt.hash(password, 10);

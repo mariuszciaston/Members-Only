@@ -5,18 +5,48 @@
     <%- include('partials/nav') %>
     <main>
       <h2>Register</h2>
+
+      <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+      <div class="errors">
+        <% errors.forEach(error => { %>
+        <p style="color: red"><%= error.msg %></p>
+        <% }) %>
+      </div>
+      <% } %>
+
       <form action="/register" method="POST">
         <label for="fullname">Fullname</label>
-        <input id="fullname" name="fullname" type="text" />
+        <input
+          id="fullname"
+          name="fullname"
+          type="text"
+          value="<%= 
+        typeof body !== 'undefined' ? body.fullname || '' : '' %>"
+        />
 
         <label for="username">Username</label>
-        <input id="username" name="username" type="text" />
+        <input
+          id="username"
+          name="username"
+          type="text"
+          value="<%= typeof body !== 'undefined' ? body.username || '' : '' %>"
+        />
 
         <label for="password">Password</label>
-        <input id="password" name="password" type="text" />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value="<%= typeof body !== 'undefined' ? body.password || '' : '' %>"
+        />
 
-        <label for="confirmPassword">Confirm password</label>
-        <input id="confirmPassword" name="confirmPassword" type="text" />
+        <label for="passwordConfirmation">Password confirmation</label>
+        <input
+          id="passwordConfirmation"
+          name="passwordConfirmation"
+          type="password"
+          value="<%= typeof body !== 'undefined' ? body.passwordConfirmation || '' : '' %>"
+        />
 
         <button type="submit">Register</button>
       </form>
