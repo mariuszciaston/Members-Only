@@ -17,6 +17,11 @@ const sessionSQL = fs.readFileSync(
 );
 const usersSQL = fs.readFileSync(path.join(__dirname, "users.sql"), "utf-8");
 
+const messagesSQL = fs.readFileSync(
+  path.join(__dirname, "messages.sql"),
+  "utf-8",
+);
+
 console.log("Connecting...");
 
 const client = new Client({
@@ -26,8 +31,9 @@ const client = new Client({
 await client.connect();
 console.log("Creating tables...");
 
-await client.query(usersSQL);
 await client.query(sessionSQL);
+await client.query(usersSQL);
+await client.query(messagesSQL);
 
 await client.end();
 console.log("Done!");
