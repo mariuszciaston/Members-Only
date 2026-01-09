@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import errorHandler from "./middlewares/errorHandler.js";
 import authRouter from "./routes/authRouter.js";
 import indexRouter from "./routes/indexRouter.js";
+
 const pgSession = connectPgSimple(session);
 import { pool } from "./db/pool.js";
 
