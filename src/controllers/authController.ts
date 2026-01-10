@@ -6,15 +6,19 @@ import passport from "passport";
 import { createUser } from "../db/queries.js";
 import { RegisterBody } from "../types/types.js";
 
-const renderRegister = (_req: Request, res: Response) => {
+export const renderRegister = (_req: Request, res: Response) => {
   res.render("register-form");
 };
 
-const renderLogin = (_req: Request, res: Response) => {
+export const renderLogin = (_req: Request, res: Response) => {
   res.render("login-form");
 };
 
-const register = async (req: Request, res: Response, next: NextFunction) => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -36,12 +40,12 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const login = passport.authenticate("local", {
+export const login = passport.authenticate("local", {
   failureRedirect: "/",
   successRedirect: "/",
 }) as (req: Request, res: Response, next: NextFunction) => void;
 
-const logout = (req: Request, res: Response, next: NextFunction) => {
+export const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {
     if (err) {
       next(err);
@@ -50,5 +54,3 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
     res.redirect("/");
   });
 };
-
-export { login, logout, register, renderLogin, renderRegister };

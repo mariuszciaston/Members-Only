@@ -6,7 +6,7 @@ import { RegisterBody } from "../types/types.js";
 const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 1 and 20 characters.";
 
-const validateUser = [
+export const validateUser = [
   body("fullname")
     .trim()
     .isAlpha("pl-PL", { ignore: " " })
@@ -48,8 +48,6 @@ const validateUser = [
     })
     .withMessage("Password confirmation does not match password."),
 ];
-
-export { validateUser };
 
 // const validateMessage = [
 //   body("author")
@@ -95,5 +93,3 @@ export { validateUser };
 //     .isLength({ max: 50, min: 1 })
 //     .withMessage(`Name must be between 1 and 50 characters.`),
 // ];
-
-// export { validateGame, validateName };

@@ -1,6 +1,6 @@
 import * as db from "./pool.js";
 
-const createUser = async (
+export const createUser = async (
   username: string,
   hashedPassword: string,
   fullname: string,
@@ -13,7 +13,7 @@ const createUser = async (
   return result.rows[0];
 };
 
-const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string) => {
   const result = await db.query("SELECT * FROM users WHERE username = $1", [
     username,
   ]);
@@ -21,10 +21,8 @@ const getUserByUsername = async (username: string) => {
   return result.rows[0];
 };
 
-const getUserById = async (id: string) => {
+export const getUserById = async (id: string) => {
   const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
 
   return result.rows[0];
 };
-
-export { createUser, getUserById, getUserByUsername };
