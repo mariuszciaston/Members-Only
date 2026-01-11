@@ -4,10 +4,12 @@ export const createUser = async (
   username: string,
   hashedPassword: string,
   fullname: string,
+  admin = false,
+  membership = false,
 ) => {
   const result = await db.query(
-    "INSERT INTO users (fullname, username, password) VALUES ($1, $2, $3)",
-    [fullname, username, hashedPassword],
+    "INSERT INTO users (fullname, username, password, admin, membership) VALUES ($1, $2, $3, $4, $5)",
+    [fullname, username, hashedPassword, admin, membership],
   );
 
   return result.rows[0];
@@ -21,8 +23,41 @@ export const getUserByUsername = async (username: string) => {
   return result.rows[0];
 };
 
-export const getUserById = async (id: string) => {
-  const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+export const getUserById = async (id: number) => {
+  const result = await db.query("SELECT * FROM users WHERE user_id = $1", [id]);
 
   return result.rows[0];
+};
+
+export const createMessage = async (
+  title: string,
+  text: string,
+  userId: number,
+) => {
+  const { rows } = await db.query(
+    "INSERT INTO messages (title, text) VALUES ($1, $2) RETURNING message_id",
+    [title, text],
+  );
+
+  const messageId = rows[0].message_id as number;
+
+  const result = await db.query(
+    "INSERT INTO user_messages (user_id, message_id) VALUES ($1, $2)",
+    [userId, messageId],
+  );
+
+  return result.rows[0];
+};
+
+export const getAllMessages = async () => {
+  const result = await db.query(`
+  SELECT messages.*, users.fullname AS fullname, users.username AS username
+    FROM messages
+    JOIN user_messages
+      ON messages.message_id = user_messages.message_id
+    JOIN users
+      ON user_messages.user_id = users.user_id
+   ORDER BY messages.created_at DESC
+   `);
+  return result.rows;
 };

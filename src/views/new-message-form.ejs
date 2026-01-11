@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head', { title: 'New message | Members Only' }) %>
+  <body>
+    <%- include('partials/nav') %>
+    <main>
+      <h2>New message</h2>
+
+      <%- include('partials/showErrors') %>
+
+      <form action="/messages/new" method="POST">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          value="<%= typeof body !== 'undefined' ? body.title || '' : '' %>"
+        />
+
+        <label for="text">Message</label>
+        <textarea id="text" name="text">
+<%= typeof body !== 'undefined' ? body.text || '' : '' %></textarea
+        >
+
+        <button type="submit">Add</button>
+      </form>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>

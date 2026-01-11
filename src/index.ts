@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import errorHandler from "./middlewares/errorHandler.js";
 import authRouter from "./routes/authRouter.js";
 import indexRouter from "./routes/indexRouter.js";
+import messagesRouter from "./routes/messagesRouter.js";
 
 const pgSession = connectPgSimple(session);
 import { pool } from "./db/pool.js";
@@ -66,6 +67,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/messages", messagesRouter);
 
 app.get("/{*splat}", (_req, res) => {
   res.status(404).render("404");

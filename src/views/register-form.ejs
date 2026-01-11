@@ -6,13 +6,7 @@
     <main>
       <h2>Register</h2>
 
-      <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-      <div class="errors">
-        <% errors.forEach(error => { %>
-        <p style="color: red"><%= error.msg %></p>
-        <% }) %>
-      </div>
-      <% } %>
+      <%- include('partials/showErrors') %>
 
       <form action="/register" method="POST">
         <label for="fullname">Fullname</label>

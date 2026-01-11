@@ -16,6 +16,7 @@ authRouter.post("/register", validateUser, register);
 
 authRouter.get("/login", renderLogin);
 authRouter.post("/login", login);
+
 authRouter.get("/logout", logout);
 
 export default authRouter;

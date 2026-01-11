@@ -49,47 +49,18 @@ export const validateUser = [
     .withMessage("Password confirmation does not match password."),
 ];
 
-// const validateMessage = [
-//   body("author")
-//     .trim()
-//     .isAlpha("pl-PL", { ignore: " -'" })
-//     .withMessage(`Name must only contain letters.`)
-//     .isLength({ max: 50, min: 1 })
-//     .withMessage(`Name must be between 1 and 50 characters.`)
-//     .escape(),
+export const validateMessage = [
+  body("title")
+    .trim()
+    .notEmpty()
+    .withMessage("Title is required")
+    .isLength({ max: 50, min: 1 })
+    .withMessage(`Title must be between 1 and 50 characters.`),
 
-//   body("text")
-//     .trim()
-//     .isLength({ max: 255, min: 2 })
-//     .withMessage("Message must be between 2 and 255 characters.")
-//     .escape(),
-// ];
-// body('bio').trim().isLength({ max: 200 }).withMessage('Bio must be 500 characters or less.'),
-
-// import { body } from "express-validator";
-
-// const validateGame = [
-//   body("title")
-//     .trim()
-//     .notEmpty()
-//     .withMessage("Title is required")
-//     .isLength({ max: 50, min: 1 })
-//     .withMessage(`Title must be between 1 and 50 characters.`),
-
-//   body("released")
-//     .trim()
-//     .notEmpty()
-//     .withMessage("Release year is required")
-//     .isInt({ max: 2050, min: 1950 })
-//     .withMessage("Release year must be between 1950 and 2050")
-//     .toInt(),
-// ];
-
-// const validateName = [
-//   body("name")
-//     .trim()
-//     .notEmpty()
-//     .withMessage("Name is required")
-//     .isLength({ max: 50, min: 1 })
-//     .withMessage(`Name must be between 1 and 50 characters.`),
-// ];
+  body("text")
+    .trim()
+    .notEmpty()
+    .withMessage("Message is required")
+    .isLength({ max: 255, min: 2 })
+    .withMessage("Message must be between 2 and 255 characters."),
+];

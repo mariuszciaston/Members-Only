@@ -5,18 +5,50 @@
     <%- include('partials/nav') %>
     <main>
       <% if (locals.currentUser) { %>
-      <h2>Welcome back <%= locals.currentUser.username %>!</h2>
+      <h2>Welcome back <%= locals.currentUser.fullname %>!</h2>
 
-      <p>-full content here-</p>
+      <a href="/messages/new">Create a new message</a>
 
+      <% if (messages && messages.length > 0) { %>
+      <div class="messages">
+        <h3>Messages</h3>
+        <% locals.messages.forEach(message => { %>
+        <div class="message">
+          <p><%= message.fullname %></p>
+          <p>
+            @<%= message.username %> on <%= new
+            Date(message.created_at).toLocaleDateString() %>
+          </p>
+          <h4><%= message.title %></h4>
+          <p><%= message.text %></p>
+        </div>
+        <% }) %>
+      </div>
       <% } else { %>
+      <p>No messages yet. Be the first to post!</p>
+      <% } %> <% } else { %>
 
       <h2>Welcome to Members Only!</h2>
       <p>To create a message, you need to <a href="/login">login</a> first.</p>
 
-      <div>-content here-</div>
-
-      <% } %>
+      <% if (messages && messages.length > 0) { %>
+      <div class="messages">
+        <h3>Messages</h3>
+        <% locals.messages.forEach(message => { %>
+        <div class="message">
+          <p><%= message.fullname %></p>
+          <p>
+            @<%= message.username %> on <%= new
+            Date(message.created_at).toLocaleDateString() %>
+          </p>
+          <h4><%= message.title %></h4>
+          <p><%= message.text %></p>
+        </div>
+        <% }) %>
+      </div>
+      <% } else { %>
+      <p>No messages yet. Be the first to post!</p>
+      <% } %> <% } %>
     </main>
     <%- include('partials/footer') %>
   </body>

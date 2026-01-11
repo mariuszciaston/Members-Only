@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 
-export const renderHome = (req: Request, res: Response) => {
-  res.render("index");
+import { getAllMessages } from "../db/queries.js";
+
+export const renderHome = async (_req: Request, res: Response) => {
+  const allMessages = await getAllMessages();
+  res.render("index", { messages: allMessages });
 };
