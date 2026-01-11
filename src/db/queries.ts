@@ -61,3 +61,12 @@ export const getAllMessages = async () => {
    `);
   return result.rows;
 };
+
+export const addMembershipStatus = async (userId: number) => {
+  const result = await db.query(
+    "UPDATE users SET membership = true WHERE user_id = $1",
+    [userId],
+  );
+
+  return result.rows[0];
+};

@@ -10,6 +10,10 @@ export interface RegisterBody {
   username: string;
 }
 
+export interface ResultBody {
+  result: string;
+}
+
 export interface User {
   fullname: string;
   user_id: number;

@@ -64,3 +64,14 @@ export const validateMessage = [
     .isLength({ max: 255, min: 2 })
     .withMessage("Message must be between 2 and 255 characters."),
 ];
+
+export const validateResult = [
+  body("result")
+    .trim()
+    .notEmpty()
+    .withMessage("Result is required")
+    .isNumeric()
+    .withMessage("Result is a number")
+    .equals("4")
+    .withMessage("Wrong answer"),
+];
