@@ -7,19 +7,24 @@
       <% if (locals.currentUser) { %>
       <h2>Welcome back <%= locals.currentUser.fullname %>!</h2>
 
-      <a href="/messages/new">Create a new message</a>
-      <a href="/membership">Get a membership status</a>
-
       <% if (messages && messages.length > 0) { %>
       <div class="messages">
         <h3>Messages</h3>
         <% locals.messages.forEach(message => { %>
         <div class="message">
+          <% if (locals.currentUser.membership) { %>
           <p><%= message.fullname %></p>
           <p>
             @<%= message.username %> on <%= new
             Date(message.created_at).toLocaleDateString() %>
           </p>
+          <% } else { %>
+          <p><%= '█'.repeat(message.fullname.length) %></p>
+          <p>
+            @<%= '█'.repeat(message.username.length) %> on <%= '█'.repeat(new
+            Date(message.created_at).toLocaleDateString().length) %>
+          </p>
+          <% } %>
           <h4><%= message.title %></h4>
           <p><%= message.text %></p>
         </div>
@@ -37,10 +42,10 @@
         <h3>Messages</h3>
         <% locals.messages.forEach(message => { %>
         <div class="message">
-          <p><%= message.fullname %></p>
+          <p><%= '█'.repeat(message.fullname.length) %></p>
           <p>
-            @<%= message.username %> on <%= new
-            Date(message.created_at).toLocaleDateString() %>
+            @<%= '█'.repeat(message.username.length) %> on <%= '█'.repeat(new
+            Date(message.created_at).toLocaleDateString().length) %>
           </p>
           <h4><%= message.title %></h4>
           <p><%= message.text %></p>
