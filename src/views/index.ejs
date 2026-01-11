@@ -1,61 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('partials/head', { title: 'Home | Members Only' }) %>
+  <%- include('partials/head', { title: 'Home page | Members Only' }) %>
   <body>
     <%- include('partials/nav') %>
+
     <main>
-      <% if (locals.currentUser) { %>
-      <h2>Welcome back <%= locals.currentUser.fullname %>!</h2>
+      <% 
+        const user = locals.currentUser;
+        const msgs = locals.messages || [];
+        const isMember = Boolean(user && user.membership);
+      %>
 
-      <% if (messages && messages.length > 0) { %>
-      <div class="messages">
-        <h3>Messages</h3>
-        <% locals.messages.forEach(message => { %>
-        <div class="message">
-          <% if (locals.currentUser.membership) { %>
-          <p><%= message.fullname %></p>
-          <p>
-            @<%= message.username %> on <%= new
-            Date(message.created_at).toLocaleDateString() %>
-          </p>
-          <% } else { %>
-          <p><%= '█'.repeat(message.fullname.length) %></p>
-          <p>
-            @<%= '█'.repeat(message.username.length) %> on <%= '█'.repeat(new
-            Date(message.created_at).toLocaleDateString().length) %>
-          </p>
-          <% } %>
-          <h4><%= message.title %></h4>
-          <p><%= message.text %></p>
-        </div>
-        <% }) %>
-      </div>
+      <% if (user) { %>
+        <h2>Welcome back <%= user.fullname %>!</h2>
       <% } else { %>
-      <p>No messages yet. Be the first to post!</p>
-      <% } %> <% } else { %>
+        <h2>Welcome to Members Only!</h2>
+        <p>To create a message, you need to <a href="/login">login</a> first.</p>
+      <% } %>
 
-      <h2>Welcome to Members Only!</h2>
-      <p>To create a message, you need to <a href="/login">login</a> first.</p>
+      <% if (msgs.length > 0) { %>
+        <div class="messages">
+          <h3>Messages</h3>
 
-      <% if (messages && messages.length > 0) { %>
-      <div class="messages">
-        <h3>Messages</h3>
-        <% locals.messages.forEach(message => { %>
-        <div class="message">
-          <p><%= '█'.repeat(message.fullname.length) %></p>
-          <p>
-            @<%= '█'.repeat(message.username.length) %> on <%= '█'.repeat(new
-            Date(message.created_at).toLocaleDateString().length) %>
-          </p>
-          <h4><%= message.title %></h4>
-          <p><%= message.text %></p>
+          <% msgs.forEach(message => { 
+               const dateStr = new Date(message.created_at).toLocaleDateString();
+               const username = isMember ? message.username : '█'.repeat(message.username.length);
+               const date = isMember ? dateStr : '█'.repeat(dateStr.length);
+          %>
+            <div class="message">
+              <p><%= username %> on <%= date %></p>
+              <h4><%= message.title %></h4>
+              <p><%= message.text %></p>
+            </div>
+          <% }) %>
         </div>
-        <% }) %>
-      </div>
       <% } else { %>
-      <p>No messages yet. Be the first to post!</p>
-      <% } %> <% } %>
+        <p>No messages yet. Be the first to post!</p>
+      <% } %>
     </main>
+
     <%- include('partials/footer') %>
   </body>
 </html>

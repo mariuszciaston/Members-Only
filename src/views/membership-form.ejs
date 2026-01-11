@@ -6,8 +6,14 @@
     <main>
       <h2>Membership status</h2>
 
+      <% if (locals.currentUser.membership) { %>
+
+      <p>You already have a membership!</p>
+
+      <% } else { %>
+
       <p>
-        To get a membership status, answer question below: <br /><br />
+        To get a membership, answer question below: <br /><br />
         What is 2 + 2 = ?
       </p>
 
@@ -19,6 +25,8 @@
 
         <button type="submit">Submit</button>
       </form>
+
+      <% }%>
     </main>
     <%- include('partials/footer') %>
   </body>
