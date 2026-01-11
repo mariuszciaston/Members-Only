@@ -6,6 +6,8 @@ import path from "path";
 import { Client } from "pg";
 import { fileURLToPath } from "url";
 
+import { content } from "../db/content.js";
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,12 +37,15 @@ const client = new Client({
 });
 
 await client.connect();
-console.log("Creating tables...");
 
+console.log("Creating tables...");
 await client.query(sessionSQL);
 await client.query(usersSQL);
 await client.query(messagesSQL);
 await client.query(userMessagesSQL);
+
+console.log("Creating content(users and messages)...");
+await content();
 
 await client.end();
 console.log("Done!");
