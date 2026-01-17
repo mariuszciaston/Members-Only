@@ -1,3 +1,8 @@
+export interface LoginBody {
+  password: string;
+  username: string;
+}
+
 export interface MessageBody {
   text: string;
   title: string;
@@ -15,7 +20,10 @@ export interface ResultBody {
 }
 
 export interface User {
+  admin: boolean;
   fullname: string;
+  membership: boolean;
+  password: string;
   user_id: number;
   username: string;
 }

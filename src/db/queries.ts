@@ -1,3 +1,4 @@
+import { User } from "../types/types.js";
 import * as db from "./pool.js";
 
 export const createUser = async (
@@ -15,18 +16,20 @@ export const createUser = async (
   return result.rows[0];
 };
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (
+  username: string,
+): Promise<undefined | User> => {
   const result = await db.query("SELECT * FROM users WHERE username = $1", [
     username,
   ]);
 
-  return result.rows[0];
+  return result.rows[0] as User;
 };
 
-export const getUserById = async (id: number) => {
+export const getUserById = async (id: number): Promise<undefined | User> => {
   const result = await db.query("SELECT * FROM users WHERE user_id = $1", [id]);
 
-  return result.rows[0];
+  return result.rows[0] as User;
 };
 
 export const createMessage = async (

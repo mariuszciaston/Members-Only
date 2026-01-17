@@ -6,6 +6,8 @@
     <main>
       <h2>Login</h2>
 
+      <%- include('partials/showErrors') %>
+
       <form action="/login" method="POST">
         <label for="username">Username</label>
         <input id="username" name="username" type="text" />

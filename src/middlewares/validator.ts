@@ -1,7 +1,9 @@
+import bcrypt from "bcryptjs";
 import { body } from "express-validator";
 
 import { getUserByUsername } from "../db/queries.js";
 import { RegisterBody } from "../types/types.js";
+import { User } from "../types/types.js";
 
 const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 1 and 20 characters.";
@@ -12,7 +14,7 @@ export const validateUser = [
     .isAlpha("pl-PL", { ignore: " " })
     .withMessage(`Full name ${alphaErr}`)
     .isLength({ max: 20, min: 1 })
-    .withMessage(`full name ${lengthErr}`),
+    .withMessage(`Full name ${lengthErr}`),
 
   body("username")
     .trim()
@@ -74,4 +76,37 @@ export const validateResult = [
     .withMessage("Result is a number")
     .equals("4")
     .withMessage("Wrong answer"),
+];
+
+export const validateLogin = [
+  body("username").trim().notEmpty().withMessage("Username is required."),
+
+  body("password").trim().notEmpty().withMessage("Password is required."),
+
+  body("username").custom(async (value: string, { req }) => {
+    if (!value) return true;
+
+    const user = await getUserByUsername(value);
+
+    if (!user) {
+      throw new Error("Invalid username.");
+    }
+
+    req.user = user;
+    return true;
+  }),
+
+  body("password").custom(async (value: string, { req }) => {
+    if (!req.user) return true;
+
+    const user = req.user as User;
+
+    const isValid = await bcrypt.compare(value, user.password);
+
+    if (!isValid) {
+      throw new Error("Invalid password.");
+    }
+
+    return true;
+  }),
 ];
