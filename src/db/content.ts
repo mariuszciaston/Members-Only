@@ -15,11 +15,11 @@ export const content = async () => {
 
   await createUser("Charlotte", hashedPassword, "Charlotte E", false, false);
 
-  await createMessage("Hello!", "This is the first test message.", 1);
-
   await createMessage("Welcome", "Welcome to my Members Only app.", 1);
 
-  await createMessage("Nice!", "Keep up the good work.", 2);
+  await createMessage("Hello!", "This is the first test message.", 2);
+
+  await createMessage("Nice!", "Keep up the good work.", 3);
 
   await createMessage(
     "Lorem ipsum",
