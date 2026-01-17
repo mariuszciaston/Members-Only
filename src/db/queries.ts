@@ -51,7 +51,7 @@ export const createMessage = async (
 
 export const getAllMessages = async () => {
   const result = await db.query(`
-  SELECT messages.*, users.fullname AS fullname, users.username AS username
+  SELECT messages.*, users.fullname AS fullname, users.username AS username, users.admin, users.membership
     FROM messages
     JOIN user_messages
       ON messages.message_id = user_messages.message_id

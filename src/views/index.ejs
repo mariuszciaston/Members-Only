@@ -26,9 +26,10 @@
                const dateStr = new Date(message.created_at).toLocaleDateString();
                const username = isMember ? message.username : '█'.repeat(message.username.length);
                const date = isMember ? dateStr : '█'.repeat(dateStr.length);
+               const status = message.admin ? '[ADMIN]' : (message.membership ? '[MEMBER]' : '[NOT MEMBER]');
           %>
             <div class="message">
-              <p><%= username %> on <%= date %></p>
+              <p><%= username %> on <%= date %>, <%= status %></p>
               <h4><%= message.title %></h4>
               <p><%= message.text %></p>
             </div>
