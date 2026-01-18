@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// SESSION SETUP
+// Session setup
 const sessionStore = new pgSession({
   pool,
   tableName: "session",
@@ -45,8 +45,7 @@ app.use(
   }),
 );
 
-// PASSPORT AUTHENTICATION
-import "./config/passport.js";
+// Passport Authentication
 app.use(passport.session());
 
 app.use((req, _res, next) => {
@@ -55,11 +54,11 @@ app.use((req, _res, next) => {
   next();
 });
 
-// parse body
+// Parse body
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-// make currentUser available in all templates
+// Make currentUser available in all templates
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();

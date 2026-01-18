@@ -2,19 +2,15 @@ import bcrypt from "bcryptjs";
 import { body } from "express-validator";
 
 import { getUserByUsername } from "../db/queries.js";
-import { RegisterBody } from "../types/types.js";
-import { User } from "../types/types.js";
-
-const alphaErr = "must only contain letters.";
-const lengthErr = "must be between 1 and 20 characters.";
+import { RegisterBody, User } from "../types/types.js";
 
 export const validateUser = [
   body("fullname")
     .trim()
     .isAlpha("pl-PL", { ignore: " " })
-    .withMessage(`Full name ${alphaErr}`)
+    .withMessage(`Full name must only contain letters.`)
     .isLength({ max: 20, min: 1 })
-    .withMessage(`Full name ${lengthErr}`),
+    .withMessage(`Full name must be between 1 and 20 characters.`),
 
   body("username")
     .trim()
