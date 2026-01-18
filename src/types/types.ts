@@ -1,3 +1,17 @@
+export interface CreateMessageParams {
+  text: string;
+  title: string;
+  userId: number;
+}
+
+export interface CreateUserParams {
+  admin: boolean;
+  fullname: string;
+  hashedPassword: string;
+  membership: boolean;
+  username: string;
+}
+
 export interface LoginBody {
   password: string;
   username: string;
