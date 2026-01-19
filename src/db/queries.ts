@@ -73,3 +73,13 @@ export const addMembershipStatus = async (userId: number) => {
 
   return result.rows[0];
 };
+
+export const deleteMessage = async (messageId: number) => {
+  await db.query("DELETE FROM user_messages WHERE message_id = $1", [
+    messageId,
+  ]);
+  const result = await db.query("DELETE FROM messages WHERE message_id = $1", [
+    messageId,
+  ]);
+  return result.rows[0];
+};

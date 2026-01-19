@@ -33,7 +33,7 @@
                   const username = isMember ? message.username : '█'.repeat(message.username.length);
                   const date = isMember ? dateStr : '█'.repeat(dateStr.length);
                   const status = message.admin ? 'ADMIN' : (message.membership ? 'MEMBER' : 'GUEST');
-                  const statusColor = message.admin ? 'bg-red-100 text-red-800' : (message.membership ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800');
+                  const statusColor = message.admin ? 'bg-violet-100 text-violet-800' : (message.membership ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800');
                   %>
                   <div class="message-card">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
@@ -45,15 +45,26 @@
                           <%= date %>
                         </span>
                       </div>
-                      <span class=" px-2 py-1 text-xs font-medium rounded-full <%= statusColor %> self-start">
-                        <%= status %>
-                      </span>
+                      <div class="flex items-center gap-2">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full <%= statusColor %>">
+                          <%= status %>
+                        </span>
+                      </div>
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">
                       <%= message.title %>
                     </h3>
-                    <p class="text-gray-700 leading-relaxed">
+                    <p class="text-gray-700 leading-relaxed mb-2">
                       <%= message.text %>
+                        <% if (user && user.admin) { %>
+                          <form method="POST" action="/messages/delete/<%= message.message_id %>">
+                            <button type="submit" class="
+                                                        
+                            text-red-600 hover:text-red-800 text-sm font-medium cursor-pointer" onclick="return confirm('Are you sure you want to delete this message?')">
+                              Delete
+                            </button>
+                          </form>
+                          <% } %>
                     </p>
                   </div>
                   <% }) %>
