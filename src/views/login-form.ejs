@@ -26,6 +26,7 @@
                 name="username"
                 type="text"
                 class="input-field"
+                value="<%= typeof body !== 'undefined' ? body.username || '' : '' %>"
                 required
               />
             </div>
