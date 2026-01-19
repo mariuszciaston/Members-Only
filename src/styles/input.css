@@ -1,31 +1,33 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
 
-/* body {
-  font-family: 
-} */
-
-#footer {
-  font-size: 0.875rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  color: black;
+body {
+  @apply bg-gray-100 font-sans text-gray-900;
 }
 
-#signature {
-  display: flex;
-  align-items: center;
-  height: 2.125rem;
-  white-space: nowrap;
+.btn-primary-blue {
+  @apply inline-block cursor-pointer rounded-lg border-0 bg-blue-600 px-4 py-2 text-center font-medium text-white no-underline transition-colors hover:bg-blue-700;
+}
+
+.btn-primary-green {
+  @apply inline-block cursor-pointer rounded-lg border-0 bg-green-600 px-4 py-2 text-center font-medium text-white no-underline transition-colors hover:bg-green-700;
+}
+
+.btn-secondary {
+  @apply inline-block cursor-pointer rounded-lg border-0 bg-gray-200 px-4 py-2 text-center font-medium text-gray-700 no-underline transition-colors hover:bg-gray-300;
+}
+
+.input-field {
+  @apply w-full rounded-lg border border-gray-300 px-3 py-2 transition-all focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 focus:outline-none;
+}
+
+.card {
+  @apply rounded-lg border border-gray-200 bg-white p-6 shadow-sm;
+}
+
+.message-card {
+  @apply rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md;
 }
 
 .fa-github {
-  color: black;
-  opacity: 0.75;
-  transition: transform 0.5s ease-in-out;
-}
-
-.fa-github:hover {
-  opacity: 100%;
-  transform: rotate(360deg) scale(1.2);
+  @apply opacity-75 transition-transform duration-500 hover:scale-120 hover:rotate-360 hover:opacity-100;
 }

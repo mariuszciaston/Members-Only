@@ -1,33 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <%- include('partials/head', { title: 'Membership | Members Only' }) %>
-  <body>
+  <body class="flex h-full flex-col">
     <%- include('partials/nav') %>
-    <main>
-      <h2>Membership status</h2>
+
+    <main class="mx-auto w-full max-w-xl flex-1 px-4 py-8">
+      <div class="mb-8 text-center">
+        <h1 class="mb-2 text-3xl font-bold text-gray-900">Membership Status</h1>
+        <p class="text-gray-600">
+          Unlock exclusive features and see member details
+        </p>
+      </div>
 
       <% if (locals.currentUser.membership) { %>
-
-      <p>You already have a membership!</p>
-
+      <div class="card text-center">
+        <div
+          class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100"
+        >
+          <i class="fas fa-check text-2xl text-green-600"></i>
+        </div>
+        <h2 class="mb-2 text-xl font-semibold text-gray-900">
+          You're a Member!
+        </h2>
+        <p class="mb-4 text-gray-600">
+          You have full access to all member features including viewing author
+          names and post dates.
+        </p>
+        <a href="/" class="btn-primary-blue">Back to Messages</a>
+      </div>
       <% } else { %>
+      <div class="card">
+        <div class="mb-6 text-center">
+          <div
+            class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100"
+          >
+            <i class="fas fa-key text-2xl text-blue-600"></i>
+          </div>
+          <h2 class="mb-2 text-xl font-semibold text-gray-900">
+            Become a Member
+          </h2>
+          <p class="mb-4 text-gray-600">
+            Answer this simple question to unlock member privileges:
+          </p>
+          <div class="mb-6 rounded-lg bg-gray-100 p-4">
+            <p class="text-lg font-medium text-gray-900">What is 2 + 2 = ?</p>
+          </div>
+        </div>
 
-      <p>
-        To get a membership, answer question below: <br /><br />
-        What is 2 + 2 = ?
-      </p>
+        <%- include('partials/showErrors') %>
 
-      <%- include('partials/showErrors') %>
+        <form action="/membership" method="POST" class="space-y-6">
+          <div>
+            <label
+              for="result"
+              class="mb-2 block text-sm font-medium text-gray-700"
+              >Your Answer</label
+            >
+            <input
+              id="result"
+              name="result"
+              type="number"
+              class="input-field"
+              placeholder="Enter your answer"
+              required
+            />
+          </div>
 
-      <form action="/membership" method="POST">
-        <label for="result">Result</label>
-        <input id="result" name="result" type="number" />
-
-        <button type="submit">Submit</button>
-      </form>
-
-      <% }%>
+          <button type="submit" class="btn-primary-blue w-full">
+            Submit Answer
+          </button>
+        </form>
+      </div>
+      <% } %>
     </main>
+
     <%- include('partials/footer') %>
   </body>
 </html>

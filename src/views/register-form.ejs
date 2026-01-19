@@ -1,52 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <%- include('partials/head', { title: 'Register | Members Only' }) %>
-  <body>
+  <body class="flex h-full flex-col bg-gray-50">
     <%- include('partials/nav') %>
-    <main>
-      <h2>Register</h2>
 
-      <%- include('partials/showErrors') %>
+    <main class="flex flex-1 items-center justify-center px-4 py-8">
+      <div class="w-full max-w-md space-y-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-gray-900">Join the club</h2>
+          <p class="mt-2 text-gray-600">Create your account to get started</p>
+        </div>
 
-      <form action="/register" method="POST">
-        <label for="fullname">Fullname</label>
-        <input
-          id="fullname"
-          name="fullname"
-          type="text"
-          value="<%= 
-        typeof body !== 'undefined' ? body.fullname || '' : '' %>"
-        />
+        <%- include('partials/showErrors') %>
 
-        <label for="username">Username</label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          value="<%= typeof body !== 'undefined' ? body.username || '' : '' %>"
-        />
+        <div class="card">
+          <form action="/register" method="POST" class="space-y-6">
+            <div>
+              <label
+                for="fullname"
+                class="mb-2 block text-sm font-medium text-gray-700"
+                >Full Name</label
+              >
+              <input
+                id="fullname"
+                name="fullname"
+                type="text"
+                class="input-field"
+                value="<%= typeof body !== 'undefined' ? body.fullname || '' : '' %>"
+                required
+              />
+            </div>
 
-        <label for="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value="<%= typeof body !== 'undefined' ? body.password || '' : '' %>"
-        />
+            <div>
+              <label
+                for="username"
+                class="mb-2 block text-sm font-medium text-gray-700"
+                >Username</label
+              >
+              <input
+                id="username"
+                name="username"
+                type="text"
+                class="input-field"
+                value="<%= typeof body !== 'undefined' ? body.username || '' : '' %>"
+                required
+              />
+            </div>
 
-        <label for="passwordConfirmation">Password confirmation</label>
-        <input
-          id="passwordConfirmation"
-          name="passwordConfirmation"
-          type="password"
-          value="<%= typeof body !== 'undefined' ? body.passwordConfirmation || '' : '' %>"
-        />
+            <div>
+              <label
+                for="password"
+                class="mb-2 block text-sm font-medium text-gray-700"
+                >Password</label
+              >
+              <input
+                id="password"
+                name="password"
+                type="password"
+                class="input-field"
+                value="<%= typeof body !== 'undefined' ? body.password || '' : '' %>"
+                required
+              />
+            </div>
 
-        <button type="submit">Register</button>
-      </form>
+            <div>
+              <label
+                for="passwordConfirmation"
+                class="mb-2 block text-sm font-medium text-gray-700"
+                >Confirm Password</label
+              >
+              <input
+                id="passwordConfirmation"
+                name="passwordConfirmation"
+                type="password"
+                class="input-field"
+                value="<%= typeof body !== 'undefined' ? body.passwordConfirmation || '' : '' %>"
+                required
+              />
+            </div>
 
-      <p>Already have an account? <a href="/login">Login here</a>.</p>
+            <button type="submit" class="btn-primary-green w-full">
+              Create Account
+            </button>
+          </form>
+        </div>
+
+        <div class="text-center">
+          <p class="text-gray-600">
+            Already have an account?
+            <a
+              href="/login"
+              class="font-medium text-blue-600 hover:text-blue-500"
+              >Sign in here</a
+            >
+          </p>
+        </div>
+      </div>
     </main>
+
     <%- include('partials/footer') %>
   </body>
 </html>

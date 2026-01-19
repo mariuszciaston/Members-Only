@@ -1,45 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-  <%- include('partials/head', { title: 'Home page | Members Only' }) %>
-  <body>
+<html lang="en" class="h-full">
+<%- include('partials/head', { title: 'Home page | Members Only' }) %>
+
+  <body class="h-full flex flex-col">
     <%- include('partials/nav') %>
-
-    <main>
-      <% 
-        const user = locals.currentUser;
-        const msgs = locals.messages || [];
-        const isMember = Boolean(user && user.membership);
-      %>
-
-      <% if (user) { %>
-        <h2>Welcome back <%= user.fullname %>!</h2>
-      <% } else { %>
-        <h2>Welcome to Members Only!</h2>
-        <p>To create a message, you need to <a href="/login">login</a> first.</p>
-      <% } %>
-
-      <% if (msgs.length > 0) { %>
-        <div class="messages">
-          <h3>Messages</h3>
-
-          <% msgs.forEach(message => { 
-               const dateStr = new Date(message.created_at).toLocaleDateString();
-               const username = isMember ? message.username : '█'.repeat(message.username.length);
-               const date = isMember ? dateStr : '█'.repeat(dateStr.length);
-               const status = message.admin ? '[ADMIN]' : (message.membership ? '[MEMBER]' : '[NOT MEMBER]');
-          %>
-            <div class="message">
-              <p><%= username %> on <%= date %>, <%= status %></p>
-              <h4><%= message.title %></h4>
-              <p><%= message.text %></p>
+      <main class="flex-1 max-w-xl mx-auto px-4 py-8 w-full">
+        <% const user=locals.currentUser; const msgs=locals.messages || []; const isMember=Boolean(user && user.membership); %>
+          <div class="text-center mb-8">
+            <% if (user) { %>
+              <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome back, <%= user.fullname %>!</h1>
+              <p class="text-gray-600">Share your thoughts with the community</p>
+              <% } else { %>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Members Only!</h1>
+                <p class="text-gray-600 mb-4">A private clubhouse for exclusive conversations</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="/login" class="btn-primary-blue">Login</a>
+                  <a href="/register" class="btn-primary-green">Join Now</a>
+                </div>
+                <% } %>
+          </div>
+          <% if (msgs.length> 0) { %>
+            <div class="space-y-6">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h2 class="text-2xl font-semibold text-gray-900">Recent Messages</h2>
+                <% if (user) { %>
+                  <a href="/messages/new" class="btn-primary-blue ">New Message</a>
+                  <% } %>
+              </div>
+              <div class="space-y-4">
+                <% msgs.forEach(message=> {
+                  const dateStr = new Date(message.created_at).toLocaleDateString();
+                  const username = isMember ? message.username : '█'.repeat(message.username.length);
+                  const date = isMember ? dateStr : '█'.repeat(dateStr.length);
+                  const status = message.admin ? 'ADMIN' : (message.membership ? 'MEMBER' : 'GUEST');
+                  const statusColor = message.admin ? 'bg-red-100 text-red-800' : (message.membership ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800');
+                  %>
+                  <div class="message-card">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
+                      <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                        <span class="font-medium text-gray-900">
+                          <%= username %>
+                        </span>
+                        <span class="text-sm text-gray-500">
+                          <%= date %>
+                        </span>
+                      </div>
+                      <span class=" px-2 py-1 text-xs font-medium rounded-full <%= statusColor %> self-start">
+                        <%= status %>
+                      </span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                      <%= message.title %>
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                      <%= message.text %>
+                    </p>
+                  </div>
+                  <% }) %>
+              </div>
             </div>
-          <% }) %>
-        </div>
-      <% } else { %>
-        <p>No messages yet. Be the first to post!</p>
-      <% } %>
-    </main>
-
-    <%- include('partials/footer') %>
+            <% } else { %>
+              <div class="text-center py-12">
+                <div class="max-w-md mx-auto">
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">No messages yet</h3>
+                  <p class="text-gray-600 mb-4">Be the first to start a conversation!</p>
+                  <% if (user) { %>
+                    <a href="/messages/new" class="btn-primary-blue">Create First Message</a>
+                    <% } %>
+                </div>
+              </div>
+              <% } %>
+      </main>
+      <%- include('partials/footer') %>
   </body>
+
 </html>

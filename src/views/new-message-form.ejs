@@ -1,30 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <%- include('partials/head', { title: 'New message | Members Only' }) %>
-  <body>
+  <body class="flex h-full flex-col">
     <%- include('partials/nav') %>
-    <main>
-      <h2>New message</h2>
+
+    <main class="mx-auto w-full max-w-xl flex-1 px-4 py-8">
+      <div class="mb-8 text-center">
+        <h1 class="mb-2 text-3xl font-bold text-gray-900">
+          Share your thoughts
+        </h1>
+        <p class="text-gray-600">Create a new message for the community</p>
+      </div>
 
       <%- include('partials/showErrors') %>
 
-      <form action="/messages/new" method="POST">
-        <label for="title">Title</label>
-        <input
-          id="title"
-          name="title"
-          type="text"
-          value="<%= typeof body !== 'undefined' ? body.title || '' : '' %>"
-        />
+      <div class="card">
+        <form action="/messages/new" method="POST" class="space-y-6">
+          <div>
+            <label
+              for="title"
+              class="mb-2 block text-sm font-medium text-gray-700"
+              >Title</label
+            >
+            <input
+              id="title"
+              name="title"
+              type="text"
+              class="input-field"
+              placeholder="What's on your mind?"
+              value="<%= typeof body !== 'undefined' ? body.title || '' : '' %>"
+              required
+            />
+          </div>
 
-        <label for="text">Message</label>
-        <textarea id="text" name="text">
+          <div>
+            <label
+              for="text"
+              class="mb-2 block text-sm font-medium text-gray-700"
+              >Message</label
+            >
+            <textarea
+              id="text"
+              name="text"
+              rows="6"
+              class="input-field resize-none"
+              placeholder="Share your thoughts with the community..."
+              required
+            >
 <%= typeof body !== 'undefined' ? body.text || '' : '' %></textarea
-        >
+            >
+          </div>
 
-        <button type="submit">Add</button>
-      </form>
+          <div class="flex flex-col gap-4 sm:flex-row">
+            <button type="submit" class="btn-primary-blue flex-1">
+              Publish Message
+            </button>
+            <a href="/" class="btn-secondary flex-1 text-center">Cancel</a>
+          </div>
+        </form>
+      </div>
     </main>
+
     <%- include('partials/footer') %>
   </body>
 </html>

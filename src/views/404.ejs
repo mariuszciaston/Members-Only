@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <%- include('partials/head', { title: '404 | Members Only' }) %>
-  <body>
+  <body class="flex h-full flex-col">
     <%- include('partials/nav') %>
-    <main>
-      <h2>404 - Page Not Found</h2>
-      <p>This page does not exist.</p>
+
+    <main class="flex flex-1 items-center justify-center p-4">
+      <div class="mx-auto max-w-md">
+        <h1 class="mb-4 text-6xl font-bold text-gray-900">404</h1>
+        <h2 class="mb-4 text-2xl font-semibold text-gray-700">
+          Page Not Found
+        </h2>
+        <p class="mb-8 text-gray-600">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <a href="/" class="btn-primary-blue">Go Home</a>
+        </div>
+      </div>
     </main>
+
     <%- include('partials/footer') %>
   </body>
 </html>
