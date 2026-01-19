@@ -1,13 +1,13 @@
-import { CreateMessageParams, CreateUserParams, User } from "../types/types.js";
+import { User } from "../types/types.js";
 import * as db from "./pool.js";
 
-export const createUser = async ({
-  admin,
-  fullname,
-  hashedPassword,
-  membership,
-  username,
-}: CreateUserParams) => {
+export const createUser = async (
+  username: string,
+  hashedPassword: string,
+  fullname: string,
+  admin = false,
+  membership = false,
+) => {
   const result = await db.query(
     "INSERT INTO users (fullname, username, password, admin, membership) VALUES ($1, $2, $3, $4, $5)",
     [fullname, username, hashedPassword, admin, membership],
@@ -32,11 +32,11 @@ export const getUserById = async (id: number): Promise<undefined | User> => {
   return result.rows[0] as User;
 };
 
-export const createMessage = async ({
-  text,
-  title,
-  userId,
-}: CreateMessageParams) => {
+export const createMessage = async (
+  title: string,
+  text: string,
+  userId: number,
+) => {
   const { rows } = await db.query(
     "INSERT INTO messages (title, text) VALUES ($1, $2) RETURNING message_id",
     [title, text],
