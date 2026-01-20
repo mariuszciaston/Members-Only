@@ -17,13 +17,11 @@ export const content = async () => {
 
   await createMessage("Welcome", "Welcome to my Members Only app.", 1);
 
-  await createMessage("Hello!", "This is the first test message.", 2);
-
-  await createMessage("Nice!", "Keep up the good work.", 3);
-
   await createMessage(
     "Lorem ipsum",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor..",
-    3,
+    2,
   );
+
+  await createMessage("Nice!", "Keep up the good work.", 3);
 };
