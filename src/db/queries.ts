@@ -1,4 +1,5 @@
-import { User } from "../types/types.js";
+import type { User } from "../types/types.js";
+
 import * as db from "./pool.js";
 
 export const createUser = async (

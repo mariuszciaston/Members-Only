@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
 import { body } from "express-validator";
 
+import type { RegisterBody, User } from "../types/types.js";
+
 import { getUserByUsername } from "../db/queries.js";
-import { RegisterBody, User } from "../types/types.js";
 
 export const validateUser = [
   body("fullname")

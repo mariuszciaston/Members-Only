@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import type { MessageBody, User } from "../types/types.js";
+
 import { createMessage, deleteMessage } from "../db/queries.js";
-import { MessageBody, User } from "../types/types.js";
 
 export const renderNewMessage = (_req: Request, res: Response) => {
   res.render("new-message-form");

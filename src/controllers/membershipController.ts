@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import type { ResultBody, User } from "../types/types.js";
+
 import { addMembershipStatus } from "../db/queries.js";
-import { ResultBody, User } from "../types/types.js";
 
 export const renderMembership = (_req: Request, res: Response) => {
   res.render("membership-form");

@@ -3,8 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import passport from "passport";
 
+import type { LoginBody, RegisterBody } from "../types/types.js";
+
 import { createUser } from "../db/queries.js";
-import { LoginBody, RegisterBody } from "../types/types.js";
 
 export const renderRegister = (_req: Request, res: Response) => {
   res.render("register-form");
