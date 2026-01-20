@@ -45,6 +45,7 @@
     "@types/express-session": "^1.18.2",
     "@types/node": "^24.7.1",
     "@types/passport": "^1.0.17",
+    "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.15.5",
     "eslint": "^9.37.0",
     "eslint-plugin-perfectionist": "^4.15.1",
