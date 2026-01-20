@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "engines": {
-    "node": "22.20.0"
+    "node": "20.x"
   },
   "scripts": {
     "tailwind:watch": "npx @tailwindcss/cli -i src/styles/input.css -o public/output.css --minify --watch",
